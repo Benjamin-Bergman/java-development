@@ -45,7 +45,7 @@ public class BasicCalculator {
             case Subtract -> System.out.printf("%.2f - %.2f = %.2f%n", a, b, a - b);
         }
     }
-    
+
     /**
      * Gets an Operation from a String.
      *
@@ -82,9 +82,7 @@ public class BasicCalculator {
      */
     private static <T> T untilNonEmpty(Supplier<Optional<T>> f) {
         Optional<T> op;
-        do {
-            op = f.get();
-        } while (op.isEmpty());
+        do op = f.get(); while (op.isEmpty());
         return op.get();
     }
 
