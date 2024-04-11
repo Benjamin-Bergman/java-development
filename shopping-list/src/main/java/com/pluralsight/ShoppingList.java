@@ -11,9 +11,7 @@ public class ShoppingList {
                         "Soup", "Vegetables", "Apples", "Celery", "Juice"
                 };
 //        final String[] items = IntStream.range(0, 10).mapToObj(x -> items_i).flatMap(Arrays::stream).toArray(String[]::new);
-        final String format = "%" +
-                digitsIn(items.length) +
-                "d. %s";
+        final String format = "%" + digitsIn(items.length) + "d. %s";
         System.out.println("My shopping list (" + items.length + " items):");
         System.out.println(
                 IntStream.range(0, items.length)
