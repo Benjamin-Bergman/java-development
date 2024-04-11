@@ -24,6 +24,6 @@ public class MathApp {
         float v = -3.8f;
         System.out.println("That absolute value is " + Math.abs(v));
 
-        System.out.println("You random number is " + Math.random());
+        System.out.println("Your random number is " + Math.random());
     }
 }
