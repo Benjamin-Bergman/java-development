@@ -1,4 +1,4 @@
-package com.pluralsight;
+// Copyright (c) Benjamin Bergman 2024package com.pluralsight;
 
 import java.util.InputMismatchException;
 import java.util.Optional;
