@@ -3,6 +3,7 @@ package com.pluralsight;
 import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -38,12 +39,7 @@ public class BasicCalculator {
 
         System.out.println();
 
-        switch (op) {
-            case Multiply -> System.out.printf("%.2f * %.2f = %.2f%n", a, b, a * b);
-            case Divide -> System.out.printf("%.2f / %.2f = %.2f%n", a, b, a / b);
-            case Add -> System.out.printf("%.2f + %.2f = %.2f%n", a, b, a + b);
-            case Subtract -> System.out.printf("%.2f - %.2f = %.2f%n", a, b, a - b);
-        }
+        System.out.printf("%.2f %s %.2f = %.2f%n", a, op, b, op.run(a, b));
     }
 
     /**
@@ -110,19 +106,25 @@ public class BasicCalculator {
         /**
          * Multiply two numbers.
          */
-        Multiply,
+        Multiply((a, b) -> a * b),
         /**
          * Divide two numbers.
          */
-        Divide,
+        Divide((a, b) -> a / b),
         /**
          * Add two numbers.
          */
-        Add,
+        Add(Float::sum),
         /**
          * Subtract two numbers.
          */
-        Subtract;
+        Subtract((a, b) -> a - b);
+
+        private final BinaryOperator<Float> func;
+
+        Operation(BinaryOperator<Float> f) {
+            func = f;
+        }
 
         /**
          * Gets an Operation from a representative byte.
@@ -137,6 +139,20 @@ public class BasicCalculator {
                 case 'm', 'M' -> Multiply;
                 case 'd', 'D' -> Divide;
                 default -> throw new InputMismatchException();
+            };
+        }
+
+        public float run(float a, float b) {
+            return func.apply(a, b);
+        }
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case Multiply -> "*";
+                case Divide -> "/";
+                case Add -> "+";
+                case Subtract -> "-";
             };
         }
     }
