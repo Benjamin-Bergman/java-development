@@ -2,8 +2,7 @@
 
 package com.pluralsight;
 
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
 public class ShoppingList {
     public static void main(String[] args) {
