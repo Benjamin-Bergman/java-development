@@ -7,6 +7,7 @@ import java.util.regex.*;
 
 @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "SuspiciousGetterSetter", "WeakerAccess", "StaticMethodOnlyUsedInOneClass"})
 class FullName {
+    private static final Pattern PARSE_FORMAT = Pattern.compile("([^\\s,]+)\\s+(?:([^\\s,]+)\\s+)?([^\\s,]+)(?:,\\s+([^\\s,]+))?");
     private final String firstName;
     private final String lastName;
     private final Optional<String> middleName;
@@ -26,8 +27,7 @@ class FullName {
     }
 
     public static Optional<FullName> parse(CharSequence fullName) {
-        var regex = Pattern.compile("([^\\s,]+)\\s+(?:([^\\s,]+)\\s+)?([^\\s,]+)(?:,\\s+([^\\s,]+))?");
-        var matcher = regex.matcher(fullName);
+        var matcher = PARSE_FORMAT.matcher(fullName);
         if (!matcher.find())
             return Optional.empty();
 
