@@ -26,7 +26,7 @@ class FullName {
     }
 
     public static Optional<FullName> parse(CharSequence fullName) {
-        var regex = Pattern.compile("(\\S+)\\s+(?:(\\S+)\\s+)?([^\\s,]+)(?:,\\s+(\\S+))?");
+        var regex = Pattern.compile("([^\\s,]+)\\s+(?:([^\\s,]+)\\s+)?([^\\s,]+)(?:,\\s+([^\\s,]+))?");
         var matcher = regex.matcher(fullName);
         if (!matcher.find())
             return Optional.empty();
