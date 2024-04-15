@@ -3,8 +3,9 @@
 package com.pluralsight;
 
 import java.util.*;
+import java.util.regex.*;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+@SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "SuspiciousGetterSetter", "WeakerAccess", "StaticMethodOnlyUsedInOneClass"})
 class FullName {
     private final String firstName;
     private final String lastName;
@@ -22,6 +23,31 @@ class FullName {
         if (s == null) return Optional.empty();
         String trimmed = s.trim();
         return trimmed.isEmpty() ? Optional.empty() : Optional.of(trimmed);
+    }
+
+    public static Optional<FullName> parse(CharSequence fullName) {
+        var regex = Pattern.compile("(\\S+)\\s+(?:(\\S+)\\s+)?([^\\s,]+)(?:,\\s+(\\S+))?");
+        var matcher = regex.matcher(fullName);
+        if (!matcher.find())
+            return Optional.empty();
+
+        return Optional.of(new FullName(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4)));
+    }
+
+    public String getFirst() {
+        return firstName;
+    }
+
+    public String getLast() {
+        return lastName;
+    }
+
+    public Optional<String> getMiddle() {
+        return middleName;
+    }
+
+    public Optional<String> getSuffix() {
+        return nameSuffix;
     }
 
     @Override
