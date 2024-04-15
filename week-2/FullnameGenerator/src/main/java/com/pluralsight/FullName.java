@@ -50,9 +50,16 @@ class FullName {
         return nameSuffix;
     }
 
+    @SuppressWarnings({"AutoBoxing", "AutoUnboxing"})
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        int length =
+                firstName.length()
+                + middleName.map(s -> s.length() + 1).orElse(0)
+                + lastName.length() + 1
+                + getSuffix().map(s -> s.length() + 2).orElse(0);
+
+        StringBuilder builder = new StringBuilder(length);
         builder.append(firstName);
 
         middleName.ifPresent(s -> builder.append(' ').append(s));
