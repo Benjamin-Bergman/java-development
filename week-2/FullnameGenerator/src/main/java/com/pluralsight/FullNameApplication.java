@@ -4,8 +4,8 @@ package com.pluralsight;
 
 import java.util.*;
 
-@SuppressWarnings({"UtilityClass", "MissingJavadoc"})
-public final class FullNameApplication {
+@SuppressWarnings("UtilityClass")
+final class FullNameApplication {
     public static void main(String[] args) {
         try (Scanner in = new Scanner(System.in)) {
             System.out.println("Please enter your name.");

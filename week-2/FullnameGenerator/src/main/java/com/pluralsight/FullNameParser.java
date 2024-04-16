@@ -4,8 +4,8 @@ package com.pluralsight;
 
 import java.util.*;
 
-@SuppressWarnings({"MissingJavadoc", "UtilityClass"})
-public final class FullNameParser {
+@SuppressWarnings("UtilityClass")
+final class FullNameParser {
     public static void main(String[] args) {
         System.out.print("What is your full name? ");
         try (Scanner sc = new Scanner(System.in)) {
