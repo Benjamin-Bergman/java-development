@@ -8,10 +8,7 @@ import java.util.regex.*;
 @SuppressWarnings({"WeakerAccess", "StaticMethodOnlyUsedInOneClass"})
 class FullName {
     private static final Pattern PARSE_FORMAT = Pattern.compile("([^\\s,]+)\\s+(?:([^\\s,]+)\\s+)?([^\\s,]+)(?:,\\s+([^\\s,]+))?");
-    private final String firstName;
-    private final String lastName;
-    private final String middleName;
-    private final String nameSuffix;
+    private final String firstName, lastName, middleName, nameSuffix;
 
     FullName(String first, String middle, String last, String suffix) {
         firstName = clean(Objects.requireNonNull(first)).orElseThrow();
