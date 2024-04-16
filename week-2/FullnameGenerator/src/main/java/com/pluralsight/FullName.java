@@ -5,19 +5,19 @@ package com.pluralsight;
 import java.util.*;
 import java.util.regex.*;
 
-@SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "SuspiciousGetterSetter", "WeakerAccess", "StaticMethodOnlyUsedInOneClass"})
+@SuppressWarnings({"WeakerAccess", "StaticMethodOnlyUsedInOneClass"})
 class FullName {
     private static final Pattern PARSE_FORMAT = Pattern.compile("([^\\s,]+)\\s+(?:([^\\s,]+)\\s+)?([^\\s,]+)(?:,\\s+([^\\s,]+))?");
     private final String firstName;
     private final String lastName;
-    private final Optional<String> middleName;
-    private final Optional<String> nameSuffix;
+    private final String middleName;
+    private final String nameSuffix;
 
     FullName(String first, String middle, String last, String suffix) {
         firstName = clean(Objects.requireNonNull(first)).orElseThrow();
-        middleName = clean(middle);
+        middleName = clean(middle).orElse(null);
         lastName = clean(Objects.requireNonNull(last)).orElseThrow();
-        nameSuffix = clean(suffix);
+        nameSuffix = clean(suffix).orElse(null);
     }
 
     private static Optional<String> clean(String s) {
@@ -34,20 +34,22 @@ class FullName {
         return Optional.of(new FullName(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4)));
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     public String getFirst() {
         return firstName;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     public String getLast() {
         return lastName;
     }
 
     public Optional<String> getMiddle() {
-        return middleName;
+        return Optional.ofNullable(middleName);
     }
 
     public Optional<String> getSuffix() {
-        return nameSuffix;
+        return Optional.ofNullable(nameSuffix);
     }
 
     @Override
@@ -55,11 +57,11 @@ class FullName {
         StringBuilder builder = new StringBuilder();
         builder.append(firstName);
 
-        middleName.ifPresent(s -> builder.append(' ').append(s));
+        Optional.ofNullable(middleName).ifPresent(s -> builder.append(' ').append(s));
 
         builder.append(' ').append(lastName);
 
-        nameSuffix.ifPresent(s -> builder.append(", ").append(s));
+        Optional.ofNullable(nameSuffix).ifPresent(s -> builder.append(", ").append(s));
 
         return builder.toString();
     }
