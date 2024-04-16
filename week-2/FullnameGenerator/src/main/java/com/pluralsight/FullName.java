@@ -21,9 +21,9 @@ class FullName {
     }
 
     private static Optional<String> clean(String s) {
-        if (s == null) return Optional.empty();
-        String trimmed = s.trim();
-        return trimmed.isEmpty() ? Optional.empty() : Optional.of(trimmed);
+        return Optional.ofNullable(s)
+                .map(String::trim)
+                .flatMap(x -> x.isEmpty() ? Optional.empty() : Optional.of(x));
     }
 
     public static Optional<FullName> parse(CharSequence fullName) {
