@@ -2,6 +2,8 @@
 
 package com.pluralsight;
 
+import java.util.*;
+
 final class Enemy {
     private int health = 100;
     private String name;
@@ -40,14 +42,13 @@ final class Enemy {
         this.damage = damage;
     }
 
-    public int attack(Character c) {
+    public OptionalInt attack(Character c) {
         return attack(c, 1);
     }
 
-    public int attack(Character c, float specialAbilityMultiplier) {
-
+    public OptionalInt attack(Character c, float specialAbilityMultiplier) {
         var damage = (int) (getDamage() * specialAbilityMultiplier);
         c.setHealth(c.getHealth() - damage);
-        return damage;
+        return c.dodge() ? OptionalInt.empty() : OptionalInt.of(damage);
     }
 }

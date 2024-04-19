@@ -47,7 +47,7 @@ final class Character {
     }
 
     public void setAgility(int agility) {
-        this.agility = agility;
+        this.agility = Math.min(Math.max(agility, 0), 100);
     }
 
     public String getDescription() {
@@ -77,5 +77,9 @@ final class Character {
         var damage = (int) (getStrength() * weaponMultiplier);
         e.setHealth(e.getHealth() - damage);
         return damage;
+    }
+
+    public boolean dodge() {
+        return (Math.random() * 100) < agility;
     }
 }

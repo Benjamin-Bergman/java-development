@@ -160,15 +160,23 @@ final class Program {
     private static boolean battle(Character player, Enemy enemy) throws InterruptedException {
         while ((player.getHealth() > 0) && (enemy.getHealth() > 0)) {
             int p = player.attack(enemy);
-            int e = enemy.attack(player);
-            System.out.printf(
-                    "%s dealt %d damage to the %s, but took %d damage.%n%d Health remaining (%d damage left to do)%n",
-                    player.getDescription(),
-                    p,
-                    enemy.getName(),
-                    e,
-                    player.getHealth(),
-                    enemy.getHealth());
+            var e = enemy.attack(player);
+            if (e.isPresent())
+                System.out.printf(
+                        "%s dealt %d damage to the %s, but took %d damage.%n%d Health remaining (%d damage left to do)%n",
+                        player.getDescription(),
+                        p,
+                        enemy.getName(),
+                        e.getAsInt(),
+                        player.getHealth(),
+                        enemy.getHealth());
+            else
+                System.out.printf(
+                        "%s dealt %d damage to the %s. You dodged the enemy attack!%n(%d damage left to do)%n",
+                        player.getDescription(),
+                        p,
+                        enemy.getName(),
+                        enemy.getHealth());
             Thread.sleep((long) (Math.random() * 500) + 500);
         }
         if (enemy.getHealth() == 0)
