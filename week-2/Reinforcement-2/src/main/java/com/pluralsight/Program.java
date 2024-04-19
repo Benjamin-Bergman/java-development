@@ -16,32 +16,40 @@ final class Program {
             System.out.print("Hello, challenger! Please enter your name: ");
             var name = sc.nextLine();
             var player = new Character(name);
-            System.out.print("How many enemies would you like to face today?: ");
-            OptionalInt enemyCount;
-            do enemyCount = tryReadInt(sc, count -> count > 0);
-            while (enemyCount.isEmpty());
-            sc.nextLine();
 
-            var enemies = chooseEnemies(enemyCount.getAsInt());
+            while (true) {
+                System.out.print("How many enemies would you like to face today?: ");
+                OptionalInt enemyCount;
+                do enemyCount = tryReadInt(sc, count -> count > 0);
+                while (enemyCount.isEmpty());
+                sc.nextLine();
 
-            if (enemyCount.getAsInt() == 1)
-                System.out.printf("%nHere is the upcoming enemy:%n");
-            else
-                System.out.printf("%nHere are the upcoming enemies:%n");
+                var enemies = chooseEnemies(enemyCount.getAsInt());
 
-            System.out.println(Arrays.stream(enemies).reduce(
-                    new StringBuilder(),
-                    (sb, e) -> sb.append(e.getName()).append(": ").append(e.getHealth()).append(" HP, ").append(e.getDamage()).append(" ATK").append(System.lineSeparator()),
-                    StringBuilder::append));
+                if (enemyCount.getAsInt() == 1)
+                    System.out.printf("%nHere is the upcoming enemy:%n");
+                else
+                    System.out.printf("%nHere are the upcoming enemies:%n");
 
-            System.out.print("Here are your stats, ");
-            System.out.println(player.getFullStatus());
+                System.out.println(Arrays.stream(enemies).reduce(
+                        new StringBuilder(),
+                        (sb, e) -> sb.append(e.getName()).append(": ").append(e.getHealth()).append(" HP, ").append(e.getDamage()).append(" ATK").append(System.lineSeparator()),
+                        StringBuilder::append));
 
-            if (queryYN(sc, "Would you like to customize them? [y/n]: "))
-                customize(player, sc);
-            System.out.printf("Let the battle%s begin!%n", (enemies.length == 1) ? "" : "s");
-            System.out.println();
-            battle(player, enemies, sc);
+                System.out.print("Here are your stats, ");
+                System.out.println(player.getFullStatus());
+
+                if (queryYN(sc, "Would you like to customize them? [y/n]: "))
+                    customize(player, sc);
+                System.out.printf("Let the battle%s begin!%n", (enemies.length == 1) ? "" : "s");
+                System.out.println();
+                battle(player, enemies, sc);
+
+                if (!queryYN(sc, "Would you like to continue? [y/n]: ")) {
+                    System.out.println("Thank you for playing!");
+                    break;
+                }
+            }
         }
     }
 

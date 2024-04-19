@@ -59,7 +59,7 @@ final class Character {
     }
 
     public String getHealthStatus() {
-        return "%d HP".formatted(health);
+        return "%d HP".formatted(getHealth());
     }
 
     public String getFullStatus() {
@@ -67,12 +67,13 @@ final class Character {
                 %s:
                 %s
                 %d STR
-                %d AGI"""
-                .formatted(getDescription(), getHealthStatus(), getStrength(), getAgility());
+                %d AGI
+                Weapon: %s"""
+                .formatted(getDescription(), getHealthStatus(), getStrength(), getAgility(), getWeapon());
     }
 
     public int attack(Enemy e) {
-        return attack(e, weapon.strength());
+        return attack(e, getWeapon().strength());
     }
 
     public int attack(Enemy e, float weaponMultiplier) {
