@@ -13,6 +13,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -52,8 +53,15 @@
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="MoveInnerDialog.RECENTS_KEY">
+    <key name="CreateClassDialog.RecentsKey">
       <recent name="com.pluralsight" />
+    </key>
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="com.pluralsight.abilities" />
+      <recent name="com.pluralsight" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.pluralsight.abilities" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -72,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1712861896002</updated>
-      <workItem from="1713531935592" duration="7456000" />
+      <workItem from="1713531935592" duration="10264000" />
     </task>
     <servers />
   </component>

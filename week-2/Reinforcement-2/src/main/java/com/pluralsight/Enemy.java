@@ -2,9 +2,12 @@
 
 package com.pluralsight;
 
+import com.pluralsight.abilities.*;
+
 import java.util.*;
 
-final class Enemy {
+public final class Enemy {
+    private SpecialAbility ability;
     private int health = 100;
     private String name;
     private int damage;
@@ -14,8 +17,13 @@ final class Enemy {
     }
 
     public Enemy(String name, int damage) {
+        this(name, 8, SpecialAbility.none());
+    }
+
+    public Enemy(String name, int damage, SpecialAbility ability) {
         this.name = name;
         this.damage = damage;
+        setAbility(ability);
     }
 
     public int getHealth() {
@@ -27,7 +35,7 @@ final class Enemy {
     }
 
     public String getName() {
-        return name;
+        return ability.name().isEmpty() ? name : (name + ' ' + ability.name());
     }
 
     public void setName(String name) {
@@ -43,12 +51,20 @@ final class Enemy {
     }
 
     public OptionalInt attack(Character c) {
-        return attack(c, 1);
+        return attack(c, getAbility().calculate(c, this));
     }
 
     public OptionalInt attack(Character c, float specialAbilityMultiplier) {
         var damage = (int) (getDamage() * specialAbilityMultiplier);
         c.setHealth(c.getHealth() - damage);
         return c.dodge() ? OptionalInt.empty() : OptionalInt.of(damage);
+    }
+
+    public SpecialAbility getAbility() {
+        return ability;
+    }
+
+    public void setAbility(SpecialAbility ability) {
+        this.ability = ability;
     }
 }

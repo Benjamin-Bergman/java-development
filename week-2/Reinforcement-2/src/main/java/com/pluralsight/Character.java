@@ -2,7 +2,7 @@
 
 package com.pluralsight;
 
-final class Character {
+public final class Character {
     private int health = 100;
     private String name;
     private int strength;

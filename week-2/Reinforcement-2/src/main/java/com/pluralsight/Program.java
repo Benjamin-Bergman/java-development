@@ -2,6 +2,8 @@
 
 package com.pluralsight;
 
+import com.pluralsight.abilities.*;
+
 import java.util.*;
 import java.util.function.*;
 import java.util.regex.*;
@@ -10,6 +12,26 @@ final class Program {
     private static final String[] ENEMY_NAMES = "Goblin;Dragon;Orc;Warrior;Knight;Vampire;Werewolf;Lizard;Cockroach;Drake;Dinosaur"
             .split(";");
     private static final Pattern YN_PATTERN = Pattern.compile("^(?:y(?:es)?|no?)$", Pattern.CASE_INSENSITIVE);
+
+    private static final SpecialAbility[] SPECIALS = {
+            new PlayerAbility("(Savage)", "Does more damage when you're healthy.", c -> lerp(clamp(c.getHealth() / 100.0, 0, 1), 1.5, 1)),
+            new PlayerAbility("(Berserk)", "Does more damage when you're weak.", c -> lerp(clamp(c.getHealth() / 100.0, 0, 1), 1.5, 1)),
+            new EnemyAbility("(Paladin)", "Does more damage when it's healthy.", e -> lerp(clamp(e.getHealth() / 100.0, 0, 1), 1.5, 1)),
+            new EnemyAbility("(Raging)", "Does more damage when it's weak.", e -> lerp(clamp(e.getHealth() / 100.0, 0, 1), 1.5, 1)),
+            new ComplexAbility("(Matching)", "Does more damage when it's as healthy as you are.", (c, e) -> lerp(clamp(Math.abs(c.getHealth() - e.getHealth()) / 100.0, 0, 1), 1.5, 1)),
+            new ComplexAbility("(Swinging)", "Does more damage when it's winning.", (c, e) -> lerp(clamp((e.getHealth() - c.getHealth()) / 100.0, 0, 1), 1, 1.5)),
+            new ComplexAbility("(Banding)", "Does more damage when it's losing.", (c, e) -> lerp(clamp((c.getHealth() - e.getHealth()) / 100.0, 0, 1), 1, 1.5)),
+            new ExponentialAbility("(Bulldozer)", "Does more damage over time.", 1, 1.1, 0),
+            new ExponentialAbility("(Burning)", "Does more damage at the beginning.", 0.5, 0.9, 1),
+    };
+
+    private static double lerp(double t, double a, double b) {
+        return (t * a) + ((1 - t) * b);
+    }
+
+    private static double clamp(double x, double min, double max) {
+        return Math.max(Math.min(x, max), min);
+    }
 
     public static void main(String[] args) throws InterruptedException {
         try (Scanner sc = new Scanner(System.in)) {
@@ -49,6 +71,7 @@ final class Program {
                     System.out.println("Thank you for playing!");
                     break;
                 }
+                player.setHealth(100);
             }
         }
     }
@@ -142,14 +165,16 @@ final class Program {
 
     private static Enemy[] chooseEnemies(int count) {
         var enemies = new Enemy[count];
-        Arrays.setAll(enemies, i -> chooseEnemy());
+        Arrays.setAll(enemies, i -> chooseEnemy(i, count));
         return enemies;
     }
 
-    private static Enemy chooseEnemy() {
+    private static Enemy chooseEnemy(int index, int count) {
         var name = ENEMY_NAMES[(int) (Math.random() * ENEMY_NAMES.length)];
         var enemy = new Enemy(name, (int) (Math.random() * 11) + 5);
         enemy.setHealth((int) (Math.random() * 50) + 75);
+        if (index == (count - 1))
+            enemy.setAbility(SPECIALS[(int) (Math.random() * SPECIALS.length)]);
         return enemy;
     }
 
@@ -166,6 +191,9 @@ final class Program {
     }
 
     private static boolean battle(Character player, Enemy enemy, Scanner sc) throws InterruptedException {
+        System.out.printf("You are fighting the %s.%n", enemy.getName());
+        if (!enemy.getAbility().name().isEmpty())
+            System.out.printf("Its ability: %s%n", enemy.getAbility().description());
         while ((player.getHealth() > 0) && (enemy.getHealth() > 0)) {
             int p = player.attack(enemy);
             var e = enemy.attack(player);
