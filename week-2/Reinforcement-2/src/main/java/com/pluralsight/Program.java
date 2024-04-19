@@ -41,7 +41,7 @@ final class Program {
                 customize(player, sc);
             System.out.printf("Let the battle%s begin!%n", (enemies.length == 1) ? "" : "s");
             System.out.println();
-            battle(player, enemies);
+            battle(player, enemies, sc);
         }
     }
 
@@ -145,9 +145,9 @@ final class Program {
         return enemy;
     }
 
-    private static boolean battle(Character player, Enemy[] enemies) throws InterruptedException {
+    private static boolean battle(Character player, Enemy[] enemies, Scanner sc) throws InterruptedException {
         for (var enemy : enemies) {
-            if (!battle(player, enemy)) {
+            if (!battle(player, enemy, sc)) {
                 System.out.println("You died...");
                 return false;
             }
@@ -157,7 +157,7 @@ final class Program {
         return true;
     }
 
-    private static boolean battle(Character player, Enemy enemy) throws InterruptedException {
+    private static boolean battle(Character player, Enemy enemy, Scanner sc) throws InterruptedException {
         while ((player.getHealth() > 0) && (enemy.getHealth() > 0)) {
             int p = player.attack(enemy);
             var e = enemy.attack(player);
@@ -181,6 +181,18 @@ final class Program {
         }
         if (enemy.getHealth() == 0)
             System.out.printf("The %s has been defeated!%n%n", enemy.getName());
+
+        if ((player.getHealth() != 0) && (Math.random() < 0.5)) {
+            var current = player.getWeapon();
+            var newWeapon = Weapon.random(current.strength());
+            System.out.printf("The enemy dropped a weapon:%n%s%nYou currently have:%n%s%n", newWeapon, current);
+            if (queryYN(sc, "Would you like to take the new weapon? [y/n]: ")) {
+                player.setWeapon(newWeapon);
+                System.out.printf("You are now using the %s.%n", newWeapon);
+            } else
+                System.out.printf("You left the %s behind.%n", newWeapon);
+        }
+
         return player.getHealth() != 0;
     }
 }
