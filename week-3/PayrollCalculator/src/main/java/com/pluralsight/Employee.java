@@ -2,6 +2,7 @@
 
 package com.pluralsight;
 
+@SuppressWarnings("unused")
 final class Employee {
     private final String employeeId;
     private final String employeeName;

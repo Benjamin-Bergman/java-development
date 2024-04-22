@@ -4,7 +4,9 @@ package com.pluralsight;
 
 import java.io.*;
 
+@SuppressWarnings("UtilityClass")
 final class Program {
+    @SuppressWarnings("FeatureEnvy")
     public static void main(String[] args) {
         try (var fr = new FileReader("employees.csv");
              var reader = new BufferedReader(fr)) {
