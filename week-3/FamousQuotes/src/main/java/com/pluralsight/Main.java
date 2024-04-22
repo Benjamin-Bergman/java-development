@@ -38,7 +38,7 @@ public class Main {
             ix = safeInt(sc);
         }
         while (ix.isEmpty() || (ix.getAsInt() < 1) || (ix.getAsInt() > 10));
-        System.out.println(QUOTES[ix.getAsInt()]);
+        System.out.println(QUOTES[ix.getAsInt() - 1]);
     }
 
     private static OptionalInt safeInt(Scanner sc) {
