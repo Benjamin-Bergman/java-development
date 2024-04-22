@@ -11,10 +11,10 @@ final class Program {
         try (var fr = new FileReader("employees.csv");
              var reader = new BufferedReader(fr)) {
             reader.lines()
-                    .map(Program::parseLine)
-                    .forEachOrdered(e ->
-                            System.out.printf("%s %s %.2f%n", e.getEmployeeId(), e.getEmployeeName(), e.getGrossPay())
-                    );
+                .map(Program::parseLine)
+                .forEachOrdered(e ->
+                    System.out.printf("%s %s %.2f%n", e.getEmployeeId(), e.getEmployeeName(), e.getGrossPay())
+                );
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
         } catch (IOException e) {
