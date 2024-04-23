@@ -10,17 +10,20 @@ import java.util.stream.*;
 @SuppressWarnings("UtilityClass")
 final class Program {
     public static void main(String[] args) {
+        File in, out;
         try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Input file: ");
-            File in = new File(sc.nextLine());
+            in = new File(sc.nextLine());
             System.out.print("Output file: ");
-            File out = new File(sc.nextLine());
+            out = new File(sc.nextLine());
+        }
 
-            Function<? super Collection<Employee>, String> formatter =
-                out.getName().endsWith(".json")
-                    ? Program::toJSON
-                    : Program::toCSV;
+        Function<? super Collection<Employee>, String> formatter =
+            out.getName().endsWith(".json")
+                ? Program::toJSON
+                : Program::toCSV;
 
+        try {
             copy(in, out, formatter);
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
