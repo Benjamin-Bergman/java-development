@@ -16,7 +16,12 @@ final class Program {
             System.out.print("Output file: ");
             File out = new File(sc.nextLine());
 
-            copy(in, out, Program::toCSV);
+            Function<? super Collection<Employee>, String> formatter =
+                out.getName().endsWith(".json")
+                    ? Program::toJSON
+                    : Program::toCSV;
+
+            copy(in, out, formatter);
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
         } catch (IOException e) {
@@ -30,6 +35,17 @@ final class Program {
             .stream()
             .map(e -> "%s, %s, %f, %f".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getHoursWorked(), e.getPayRate()))
             .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    @SuppressWarnings("FeatureEnvy")
+    private static String toJSON(Collection<Employee> employees) {
+        return
+            '[' +
+            employees
+                .stream()
+                .map(e -> "{\"employeeId\":\"%s\",\"name\":\"%s\",\"hoursWorked\":%f,\"payRate\":%f}".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getHoursWorked(), e.getPayRate()))
+                .collect(Collectors.joining(",")) +
+            ']';
     }
 
     private static void copy(File from, File to, Function<? super Collection<Employee>, String> formatter) throws IOException {
