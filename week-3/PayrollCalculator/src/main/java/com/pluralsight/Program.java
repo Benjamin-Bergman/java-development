@@ -3,22 +3,45 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings("UtilityClass")
 final class Program {
-    @SuppressWarnings("FeatureEnvy")
     public static void main(String[] args) {
-        try (var fr = new FileReader("employees.csv");
-             var reader = new BufferedReader(fr)) {
-            reader.lines()
-                .map(Program::parseLine)
-                .forEachOrdered(e ->
-                    System.out.printf("%s %s %.2f%n", e.getEmployeeId(), e.getEmployeeName(), e.getGrossPay())
-                );
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.print("Input file: ");
+            File in = new File(sc.nextLine());
+            System.out.print("Output file: ");
+            File out = new File(sc.nextLine());
+
+            copy(in, out, Program::toCSV);
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
         } catch (IOException e) {
             System.out.println("IO error.");
+        }
+    }
+
+    @SuppressWarnings("FeatureEnvy")
+    private static String toCSV(Collection<Employee> employees) {
+        return employees
+            .stream()
+            .map(e -> "%s, %s, %f, %f".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getHoursWorked(), e.getPayRate()))
+            .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    private static void copy(File from, File to, Function<? super Collection<Employee>, String> formatter) throws IOException {
+        try (var fr = new FileReader(from);
+             var reader = new BufferedReader(fr);
+             var fw = new FileWriter(to);
+             var writer = new BufferedWriter(fw)) {
+            writer.write(formatter.apply(
+                reader.lines()
+                    .map(Program::parseLine)
+                    .collect(Collectors.toList())
+            ));
         }
     }
 
