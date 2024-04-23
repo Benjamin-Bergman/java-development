@@ -14,8 +14,17 @@ final class Program {
         try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Input file: ");
             in = new File(sc.nextLine());
+            if (!in.exists() || in.isDirectory()) {
+                System.out.println("File not found.");
+                return;
+            }
             System.out.print("Output file: ");
             out = new File(sc.nextLine());
+            if (out.isDirectory()) {
+                System.out.println("Can't overwrite a directory.");
+                return;
+            }
+            if (out.exists()) System.out.println("Overwriting " + out);
         }
 
         Function<? super Collection<Employee>, String> formatter =
@@ -36,7 +45,7 @@ final class Program {
     private static String toCSV(Collection<Employee> employees) {
         return employees
             .stream()
-            .map(e -> "%s, %s, %f, %f".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getHoursWorked(), e.getPayRate()))
+            .map(e -> "%s, %s, %f".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getGrossPay()))
             .collect(Collectors.joining(System.lineSeparator()));
     }
 
@@ -46,7 +55,7 @@ final class Program {
             '[' +
             employees
                 .stream()
-                .map(e -> "{\"employeeId\":\"%s\",\"name\":\"%s\",\"hoursWorked\":%f,\"payRate\":%f}".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getHoursWorked(), e.getPayRate()))
+                .map(e -> "{\"employeeId\":\"%s\",\"name\":\"%s\",\"grossPay\":%f]}".formatted(e.getEmployeeId(), e.getEmployeeName(), e.getGrossPay()))
                 .collect(Collectors.joining(",")) +
             ']';
     }
