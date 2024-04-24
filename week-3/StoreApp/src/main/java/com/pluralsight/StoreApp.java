@@ -13,17 +13,30 @@ final class StoreApp {
 
     public static void main(String[] args) {
         loadInventory();
-        int id;
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("What item # are you interested in? ");
-            id = scanner.nextInt();
+            do productSearch(scanner); while (willContinue(scanner));
         }
+    }
+
+    private static boolean willContinue(Scanner scanner) {
+        //noinspection HardcodedFileSeparator
+        System.out.print("Check another item? [y/N] ");
+        var response = scanner.nextLine().trim();
+        return !response.isEmpty() && (response.toLowerCase().charAt(0) == 'y');
+    }
+
+    private static void productSearch(Scanner scanner) {
+        System.out.print("What item # are you interested in? ");
+
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
         Product matchedProduct = INVENTORY.get(id);
         if (matchedProduct == null) {
             System.out.println("We don't carry that product");
             return;
         }
-        System.out.printf("We carry %s and the price is $%.2f",
+        System.out.printf("We carry %s and the price is $%.2f%n",
             matchedProduct.getName(), matchedProduct.getPrice());
     }
 
