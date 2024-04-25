@@ -1,0 +1,8 @@
+As a customer, I want to search for products to save time.
+As a customer, I want to narrow down my options because I know what I want.
+As the owner, I want users to be logged in to make purchases so I can reward loyal customers.
+As the owner, I want to be able to add new products to adapt to a changing marketplace.
+As the owner, I want to be able to get a list of purchases so I can fulfill the orders.
+As the owner, I want to be able to remove products to adapt to a changing marketplace.
+As an employee, I want to be able to update the inventory so we don't get impossible orders.
+As an employee, I want to hav a pick list so I know what I need to move.
