@@ -4,6 +4,8 @@
 
 package com.pluralsight;
 
+import java.time.*;
+
 final class Employee {
     private static final int OVERTIME_LIMIT = 40;
     private static final double OVERTIME_BONUS = 1.5;
@@ -11,7 +13,7 @@ final class Employee {
     private final String name, department;
     private double payRate;
     private double hoursWorked;
-    private Double punchedIn;
+    private LocalDateTime punchedIn;
 
     Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
@@ -63,19 +65,30 @@ final class Employee {
         return Math.max(hoursWorked, OVERTIME_LIMIT) - OVERTIME_LIMIT;
     }
 
-    public void punchIn(double time) {
+    public void punchIn() {
+        punchIn(LocalDateTime.now());
+    }
+
+    public void punchIn(LocalDateTime time) {
         assert punchedIn == null : "Employee already punched in";
         punchedIn = time;
     }
 
-    public void punchOut(double time) {
+    public void punchOut() {
+        punchOut(LocalDateTime.now());
+    }
+
+    public void punchOut(LocalDateTime time) {
         assert punchedIn != null : "Employee not punched in";
         punchTimeCard(punchedIn, time);
         punchedIn = null;
     }
 
-    public void punchTimeCard(double start, double end) {
+    public void punchTimeCard(LocalDateTime start, LocalDateTime end) {
         assert end > start : "Negative time worked";
-        hoursWorked += end - start;
+        var dur = Duration.between(start, end);
+        // Times less than a second can probably be ignored, but I don't want to make my employees mad.
+        hoursWorked += dur.getSeconds() / 3_600.0
+                       + dur.getNano() / 3_600_000_000_000.0;
     }
 }
