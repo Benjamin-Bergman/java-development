@@ -11,6 +11,7 @@ final class Employee {
     private final String name, department;
     private double payRate;
     private double hoursWorked;
+    private Double punchedIn;
 
     Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
@@ -18,6 +19,19 @@ final class Employee {
         this.department = department;
         this.payRate = payRate;
         this.hoursWorked = hoursWorked;
+        punchedIn = null;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDepartment() {
+        return department;
     }
 
     public double getHoursWorked() {
@@ -47,5 +61,21 @@ final class Employee {
 
     public double getOvertimeHours() {
         return Math.max(hoursWorked, OVERTIME_LIMIT) - OVERTIME_LIMIT;
+    }
+
+    public void punchIn(double time) {
+        assert punchedIn == null : "Employee already punched in";
+        punchedIn = time;
+    }
+
+    public void punchOut(double time) {
+        assert punchedIn != null : "Employee not punched in";
+        punchTimeCard(punchedIn, time);
+        punchedIn = null;
+    }
+
+    public void punchTimeCard(double start, double end) {
+        assert end > start : "Negative time worked";
+        hoursWorked += end - start;
     }
 }

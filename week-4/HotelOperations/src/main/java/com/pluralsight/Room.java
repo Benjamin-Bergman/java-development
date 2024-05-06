@@ -52,4 +52,20 @@ final class Room {
     public void setNumberOfBeds(int numberOfBeds) {
         this.numberOfBeds = numberOfBeds;
     }
+
+    public void checkIn() {
+        assert isAvailable() : "Double-booked room";
+        occupied = true;
+        dirty = true;
+    }
+
+    public void checkout() {
+        assert occupied : "Room already checked out";
+        occupied = false;
+    }
+
+    public void cleanRoom() {
+        assert !occupied : "Cleaning an occupied room";
+        dirty = false;
+    }
 }
