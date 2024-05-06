@@ -44,7 +44,7 @@ class RoomTest {
     void checkIn_when_occupied() {
         var room = new Room(0, 0, true, false);
 
-        assertThrows(AssertionError.class, room::checkIn, "Checking in an occupied room should not be permitted");
+        assertThrows(RuntimeException.class, room::checkIn, "Checking in an occupied room should not be permitted");
     }
 
     @Test
@@ -60,7 +60,7 @@ class RoomTest {
     void checkout_when_unoccupied() {
         var room = new Room(0, 0, false, false);
 
-        assertThrows(AssertionError.class, room::checkout, "Checking out an empty room should no be permitted");
+        assertThrows(RuntimeException.class, room::checkout, "Checking out an empty room should no be permitted");
     }
 
     @Test
@@ -83,6 +83,6 @@ class RoomTest {
     void cleanRoom_when_occupied() {
         var room = new Room(0, 0, true, true);
 
-        assertThrows(AssertionError.class, room::cleanRoom, "Cleaning an occupied room should not be allowed");
+        assertThrows(RuntimeException.class, room::cleanRoom, "Cleaning an occupied room should not be allowed");
     }
 }

@@ -17,7 +17,7 @@ class EmployeeTest {
         var employee = new Employee(0, "", "", 0, 0);
 
         assertDoesNotThrow(() -> employee.punchIn(), "Employees should be able to punch in");
-        assertThrows(AssertionError.class, employee::punchIn, "Employees should not be able to punch in repeatedly");
+        assertThrows(RuntimeException.class, employee::punchIn, "Employees should not be able to punch in repeatedly");
     }
 
     @Test
@@ -28,7 +28,7 @@ class EmployeeTest {
         employee.punchIn(start);
 
         assertDoesNotThrow(() -> employee.punchOut(end), "Employees should be able to punch out");
-        assertThrows(AssertionError.class, () -> employee.punchOut(end), "Employees should not be able to punch out repeatedly");
+        assertThrows(RuntimeException.class, () -> employee.punchOut(end), "Employees should not be able to punch out repeatedly");
     }
 
     @Test
@@ -52,6 +52,6 @@ class EmployeeTest {
         LocalDateTime end = start.minusHours(1);
 
         employee.punchIn(start);
-        assertThrows(AssertionError.class, () -> employee.punchOut(end), "Backwards times should not be allowed");
+        assertThrows(RuntimeException.class, () -> employee.punchOut(end), "Backwards times should not be allowed");
     }
 }

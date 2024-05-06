@@ -70,7 +70,8 @@ final class Employee {
     }
 
     public void punchIn(LocalDateTime time) {
-        assert punchedIn == null : "Employee already punched in";
+        if (punchedIn != null)
+            throw new IllegalStateException("Employee already punched in");
         punchedIn = time;
     }
 
@@ -79,13 +80,15 @@ final class Employee {
     }
 
     public void punchOut(LocalDateTime time) {
-        assert punchedIn != null : "Employee not punched in";
+        if (punchedIn == null)
+            throw new IllegalStateException("An employee cannot punch out without being punched in first");
         punchTimeCard(punchedIn, time);
         punchedIn = null;
     }
 
     public void punchTimeCard(LocalDateTime start, LocalDateTime end) {
-        assert end.isAfter(start) : "Negative time worked";
+        if (!end.isAfter(start))
+            throw new IllegalArgumentException("A negative time worked is not allowed");
         var dur = Duration.between(start, end);
         // Times less than a second can probably be ignored, but I don't want to make my employees mad.
         hoursWorked += dur.getSeconds() / 3_600.0

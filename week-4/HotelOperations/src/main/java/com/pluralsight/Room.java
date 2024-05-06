@@ -54,18 +54,21 @@ final class Room {
     }
 
     public void checkIn() {
-        assert isAvailable() : "Double-booked room";
+        if (!isAvailable())
+            throw new IllegalStateException("Double-booking a room is not allowed");
         occupied = true;
         dirty = true;
     }
 
     public void checkout() {
-        assert occupied : "Room already checked out";
+        if (!occupied)
+            throw new IllegalStateException("Room already checked out");
         occupied = false;
     }
 
     public void cleanRoom() {
-        assert !occupied : "Cleaning an occupied room";
+        if (occupied)
+            throw new IllegalStateException("Cleaning an occupied room");
         dirty = false;
     }
 }
