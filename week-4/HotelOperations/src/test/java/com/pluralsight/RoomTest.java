@@ -10,6 +10,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTest {
     @Test
+    void isAvailable() {
+        var room = new Room(0, 0, false, false);
+
+        assertTrue(room.isAvailable(), "Empty, clean room should be available");
+    }
+
+    @Test
+    void isUnavailable_when_occupied() {
+        var room = new Room(0, 0, true, false);
+
+        assertFalse(room.isAvailable(), "Full room should be unavailable");
+    }
+
+    @Test
+    void isUnavailable_when_dirty() {
+        var room = new Room(0, 0, false, true);
+
+        assertFalse(room.isAvailable(), "Dirty room should be unavailable");
+    }
+
+    @Test
     void checkIn() {
         var room = new Room(0, 0, false, false);
 
