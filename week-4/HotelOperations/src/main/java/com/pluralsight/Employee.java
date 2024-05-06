@@ -85,7 +85,7 @@ final class Employee {
     }
 
     public void punchTimeCard(LocalDateTime start, LocalDateTime end) {
-        assert end > start : "Negative time worked";
+        assert end.isAfter(start) : "Negative time worked";
         var dur = Duration.between(start, end);
         // Times less than a second can probably be ignored, but I don't want to make my employees mad.
         hoursWorked += dur.getSeconds() / 3_600.0
