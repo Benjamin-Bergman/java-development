@@ -32,8 +32,9 @@ final class Game {
         System.out.println("Here's your hand: $player");
 
         if (player.getScore() == 21) {
-            if (dealer.getScore() != 21) System.out.println("Blackjack! You win!");
-            else System.out.println("Blackjack! Unfortunately, the dealer also had one. You lose.");
+            if (dealer.getScore() == 21)
+                System.out.println("Blackjack! Unfortunately, the dealer also had one. You lose.");
+            else System.out.println("Blackjack! You win!");
             return;
         }
 

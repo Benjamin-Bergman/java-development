@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.*;
 
 final class Hand {
-    private final List<Card> cards = new ArrayList<>();
+    private final Collection<Card> cards = new ArrayList<>();
     private boolean anyAce;
 
     public void add(Card c) {
