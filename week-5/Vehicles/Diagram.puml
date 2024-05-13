@@ -1,0 +1,34 @@
+@startuml
+
+interface Vehicle {
++ {abstract} move()
++ {abstract} setupControls()
++ {abstract} isAvailable()
+}
+abstract class GroundVehicle implements Vehicle {
++ move()
++ setupControls()
+
++ setupControls()
++ routeOverLand()
++ isPathValid(Path)
+}
+class Moped extends GroundVehicle {
++ setupControls()
++ isAvailable()
+}
+class Car extends GroundVehicle {
++ isAvailable()
+}
+class SemiTruck extends GroundVehicle {
++ isAvailable()
+
++ isPathValid(Path)
+}
+class HoverCraft implements Vehicle {
++ move()
++ setupControls()
++ isAvailable()
+}
+
+@enduml
