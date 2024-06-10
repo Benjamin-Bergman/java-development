@@ -4,11 +4,20 @@
 
 package com.pluralsight;
 
-/**
- * Hello world!
- */
+import org.apache.logging.log4j.*;
+
 public class App {
+    private static final Logger logger = LogManager.getLogger(App.class);
+
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        logMeLikeYouDo("☕");
+    }
+
+    private static void logMeLikeYouDo(String input) {
+        if (logger.isDebugEnabled()) logger.debug("This is debug: {}", input);
+        if (logger.isInfoEnabled()) logger.info("This is info: {}", input);
+        logger.warn("This is warn: {}", input);
+        logger.error("This is error: {}", input);
+        logger.fatal("This is fatal: {}", input);
     }
 }
