@@ -78,7 +78,7 @@ public class App {
 
         System.out.println("ID  NAME                                     PRICE   STOCK");
         System.out.println("--- ---------------------------------------- ------- ------");
-        for (var row : "[.sql/] SELECT productId, productName, unitPrice, unitsInStock FROM products WHERE categoryId = ?".fetch(choice))
+        for (var row : "[.sql/] SELECT productId, productName, unitPrice, unitsInStock FROM products WHERE categoryId = :category".fetch(choice))
             System.out.printf("%-3s %-40s %7.2f %-6d%n", row.productid, row.productname, row.unitprice, row.unitsinstock);
     }
 
