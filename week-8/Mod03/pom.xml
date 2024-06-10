@@ -21,6 +21,12 @@
     </properties>
 
     <dependencies>
+        <!-- Manifold Properties -->
+        <dependency>
+            <groupId>systems.manifold</groupId>
+            <artifactId>manifold-props-rt</artifactId>
+            <version>${manifold.version}</version>
+        </dependency>
         <!-- Manifold SQL -->
         <dependency>
             <groupId>systems.manifold</groupId>
@@ -67,6 +73,11 @@
                     <annotationProcessorPaths>
                         <path>
                             <groupId>systems.manifold</groupId>
+                            <artifactId>manifold-props</artifactId>
+                            <version>${manifold.version}</version>
+                        </path>
+                        <path>
+                            <groupId>systems.manifold</groupId>
                             <artifactId>manifold-sql</artifactId>
                             <version>${manifold.version}</version>
                         </path>
@@ -93,7 +104,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.4.2</version>
                 <configuration>
-                    <appendAssemblyId>true</appendAssemblyId>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
